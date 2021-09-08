@@ -2,23 +2,38 @@ import {readdirSync, statSync} from "fs";
 import {join} from "path";
 import type { PathLike } from "fs";
 
-function crawlRec(mediaPath: PathLike): Record<string, unknown>{
 
-	const out: ReturnType<typeof crawlRec> = {};
-	
-	readdirSync(mediaPath).forEach(file => {
-		if(statSync(join(mediaPath.toString(), file)).isDirectory()){
-			out[file] = crawlRec(join(mediaPath.toString(), file));
-			return;
-		}
-		out[file.split(".")[0]] = file;
-	})
-	
-	return out;
+export type Tree = {
+	files: string[];
+	directories: Record<string, Tree>
 }
 
-export function crawl(mediaPath: PathLike): Record<string, unknown>{
 
-	return crawlRec(mediaPath);
+function crawlRec(mediaPath: PathLike): Tree{
+	const files: string[] = [];
+	const directories: Tree["directories"] = {};
 
+	readdirSync(mediaPath).forEach(fileOrDir => {
+
+		const completePath = join(mediaPath.toString(), fileOrDir);
+
+		if(statSync(completePath).isDirectory()){
+			directories[fileOrDir] = crawlRec(
+				completePath
+			);
+			return;
+		}
+
+		files.push(fileOrDir);
+	})
+
+	return {
+		files,
+		directories
+	};
 };
+
+export function crawl(mediaPath: PathLike): Tree {
+	return crawlRec(mediaPath);
+}
+
