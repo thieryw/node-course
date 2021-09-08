@@ -7,12 +7,11 @@ var generatedFileName_1 = require("./generatedFileName");
 function writeExport(params) {
     var generatedFilePath = params.generatedFilePath, dirArborescence = params.dirArborescence;
     var path = (0, path_1.join)(generatedFilePath.toString(), generatedFileName_1.generatedFileName + ".ts");
-    var index = -1;
+    var index = 0;
     (0, fs_1.appendFileSync)(path, "\n\nexport const files = {\n");
     function generateStringRec(dirArborescence) {
         var files = "\"files\": [\n\t\t\t\t" + dirArborescence.files.map(function (file) {
-            index++;
-            return "{\n\t\t\t\t\t\t\t\"url\": _" + index + ",\n\t\t\t\t\t\t\t\"name\": \"" + file.split(".")[0] + "\"\n\t\t\t\t\t\t}";
+            return "{\n\t\t\t\t\t\t\t\"url\": _" + index++ + ",\n\t\t\t\t\t\t\t\"name\": \"" + file.split(".")[0] + "\"\n\t\t\t\t\t\t}";
         }) + "]";
         if (Object.keys(dirArborescence.directories).length === 0) {
             return files;

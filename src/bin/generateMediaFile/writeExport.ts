@@ -11,7 +11,7 @@ export function writeExport(params: {
 
 	const { generatedFilePath, dirArborescence } = params;
 	const path = join(generatedFilePath.toString(), `${generatedFileName}.ts`);
-	let index = -1;
+	let index = 0;
 
 	appendFileSync(path, "\n\nexport const files = {\n");
 
@@ -19,13 +19,12 @@ export function writeExport(params: {
 
 
 		const files = `"files": [
-				${dirArborescence.files.map(file => {
-			index++;
-			return `{
-							"url": _${index},
+				${dirArborescence.files.map(file =>
+			`{
+							"url": _${index++},
 							"name": "${file.split(".")[0]}"
 						}`
-		}
+
 		)
 			}]`;
 
