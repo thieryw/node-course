@@ -1,2 +1,4 @@
 /node_modules
+/dist
+/mediaImports/generatedData
 .DS_Store

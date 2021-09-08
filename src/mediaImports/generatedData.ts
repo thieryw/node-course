@@ -1,23 +1,23 @@
-import _0 from "../../media/a.jpg"; 
-import _1 from "../../media/b.jpg"; 
-import _2 from "../../media/c.jpg"; 
-import _3 from "../../media/d.jpg"; 
-import _4 from "../../media/evenMorePictures/a.jpg"; 
-import _5 from "../../media/evenMorePictures/b.jpg"; 
-import _6 from "../../media/evenMorePictures/c.jpg"; 
-import _7 from "../../media/evenMorePictures/d.jpg"; 
-import _8 from "../../media/evenMorePictures/zizi/a.jpg"; 
-import _9 from "../../media/evenMorePictures/zizi/b.jpg"; 
-import _10 from "../../media/evenMorePictures/zizi/c.jpg"; 
-import _11 from "../../media/evenMorePictures/zizi/d.jpg"; 
-import _12 from "../../media/otherPictures/b.jpg"; 
-import _13 from "../../media/otherPictures/c.jpg"; 
-import _14 from "../../media/otherPictures/d.jpg"; 
-import _15 from "../../media/otherPictures/pipi caca.jpg"; 
-import _16 from "../../media/somePictures/a.jpg"; 
-import _17 from "../../media/somePictures/b.jpg"; 
-import _18 from "../../media/somePictures/c.jpg"; 
-import _19 from "../../media/somePictures/d.jpg"; 
+import _0 from "../../media/1_bird.jpg";
+import _1 from "../../media/2_flower.jpg";
+import _2 from "../../media/3_dear.jpg";
+import _3 from "../../media/4_eagle.jpg";
+import _4 from "../../media/evenMorePictures/a.jpg";
+import _5 from "../../media/evenMorePictures/b.jpg";
+import _6 from "../../media/evenMorePictures/c.jpg";
+import _7 from "../../media/evenMorePictures/d.jpg";
+import _8 from "../../media/evenMorePictures/zizi/a.jpg";
+import _9 from "../../media/evenMorePictures/zizi/b.jpg";
+import _10 from "../../media/evenMorePictures/zizi/c.jpg";
+import _11 from "../../media/evenMorePictures/zizi/d.jpg";
+import _12 from "../../media/otherPictures/b.jpg";
+import _13 from "../../media/otherPictures/c.jpg";
+import _14 from "../../media/otherPictures/d.jpg";
+import _15 from "../../media/otherPictures/pipi caca.jpg";
+import _16 from "../../media/somePictures/a.jpg";
+import _17 from "../../media/somePictures/b.jpg";
+import _18 from "../../media/somePictures/c.jpg";
+import _19 from "../../media/somePictures/d.jpg";
 
 
 export const files = {
@@ -25,16 +25,16 @@ export const files = {
 			"files": [
 				{
 							"url": _0,
-							"name": "a"
+							"name": "bird"
 						},{
 							"url": _1,
-							"name": "b"
+							"name": "flower"
 						},{
 							"url": _2,
-							"name": "c"
+							"name": "dear"
 						},{
 							"url": _3,
-							"name": "d"
+							"name": "eagle"
 						}]
 			,
 			"directories": {

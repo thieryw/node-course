@@ -8,16 +8,17 @@ function writeImports(params) {
     var mediaPath = params.mediaPath, dirArborescence = params.dirArborescence, generatedFilePath = params.generatedFilePath;
     var relativeGeneratedFilePath = (0, path_1.relative)(__dirname, generatedFilePath.toString());
     var index = 0;
-    function writeImportsRec(mediaPath, dirArborescence) {
-        dirArborescence.files.forEach(function (file) {
+    function generateStringRec(mediaPath, dirArborescence) {
+        var str = "" + dirArborescence.files.map(function (file) {
             var relativePath = (0, path_1.relative)((0, path_1.join)(__dirname, relativeGeneratedFilePath), (0, path_1.join)(mediaPath.toString(), file));
-            (0, fs_1.appendFileSync)((0, path_1.join)(__dirname, relativeGeneratedFilePath, generatedFileName_1.generatedFileName + ".ts"), "import _" + index + " from \"" + relativePath + "\"; \n");
-            index++;
+            return "import _" + index++ + " from \"" + relativePath + "\";\n";
         });
-        Object.keys(dirArborescence.directories).forEach(function (dir) {
-            writeImportsRec((0, path_1.join)(mediaPath.toString(), dir), dirArborescence.directories[dir]);
+        var directories = dirArborescence.directories;
+        Object.keys(directories).map(function (key) {
+            str = str + generateStringRec((0, path_1.join)(mediaPath.toString(), key), directories[key]);
         });
+        return str.replace(/\,/g, "");
     }
-    writeImportsRec(mediaPath, dirArborescence);
+    (0, fs_1.appendFileSync)((0, path_1.join)(generatedFilePath.toString(), generatedFileName_1.generatedFileName + ".ts"), generateStringRec(mediaPath, dirArborescence));
 }
 exports.writeImports = writeImports;
