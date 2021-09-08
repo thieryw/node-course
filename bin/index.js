@@ -2,6 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var crawl_1 = require("./crawl");
 var path_1 = require("path");
+var fs_1 = require("fs");
+var writeImports_1 = require("./writeImports");
 var mediaPath = (0, path_1.join)(__dirname, "../media");
-console.log("recursive object with dir arborescence");
-console.log((0, crawl_1.crawl)(mediaPath));
+var dirArborescence = (0, crawl_1.crawl)(mediaPath);
+(0, fs_1.rmSync)((0, path_1.join)(__dirname, "../src/mediaImports"), { "recursive": true, "force": true });
+(0, fs_1.mkdirSync)((0, path_1.join)(__dirname, "../src/mediaImports"));
+(0, writeImports_1.writeImports)(mediaPath, dirArborescence);

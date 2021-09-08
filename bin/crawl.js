@@ -4,18 +4,23 @@ exports.crawl = void 0;
 var fs_1 = require("fs");
 var path_1 = require("path");
 function crawlRec(mediaPath) {
-    var out = {};
-    (0, fs_1.readdirSync)(mediaPath).forEach(function (file) {
-        if ((0, fs_1.statSync)((0, path_1.join)(mediaPath.toString(), file)).isDirectory()) {
-            out[file] = crawlRec((0, path_1.join)(mediaPath.toString(), file));
+    var files = [];
+    var directories = {};
+    (0, fs_1.readdirSync)(mediaPath).forEach(function (fileOrDir) {
+        var completePath = (0, path_1.join)(mediaPath.toString(), fileOrDir);
+        if ((0, fs_1.statSync)(completePath).isDirectory()) {
+            directories[fileOrDir] = crawlRec(completePath);
             return;
         }
-        out[file.split(".")[0]] = file;
+        files.push(fileOrDir);
     });
-    return out;
+    return {
+        files: files,
+        directories: directories
+    };
 }
+;
 function crawl(mediaPath) {
     return crawlRec(mediaPath);
 }
 exports.crawl = crawl;
-;
