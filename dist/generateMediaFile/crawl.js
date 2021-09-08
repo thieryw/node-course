@@ -20,7 +20,8 @@ function crawlRec(mediaPath) {
     };
 }
 ;
-function crawl(mediaPath) {
+function crawl(params) {
+    var mediaPath = params.mediaPath;
     return crawlRec(mediaPath);
 }
 exports.crawl = crawl;

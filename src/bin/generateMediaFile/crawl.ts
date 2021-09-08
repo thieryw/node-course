@@ -3,6 +3,7 @@ import {join} from "path";
 import type { PathLike } from "fs";
 
 
+
 export type Tree = {
 	files: string[];
 	directories: Record<string, Tree>
@@ -33,7 +34,8 @@ function crawlRec(mediaPath: PathLike): Tree{
 	};
 };
 
-export function crawl(mediaPath: PathLike): Tree {
+export function crawl(params: {mediaPath: PathLike}): Tree {
+	const {mediaPath} = params;
 	return crawlRec(mediaPath);
 }
 
