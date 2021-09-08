@@ -23,44 +23,47 @@ export function writeImports(params: {
 
 	let index = 0;
 
-	function writeImportsRec(mediaPath: PathLike, dirArborescence: Tree) {
+	function generateStringRec(mediaPath: PathLike, dirArborescence: Tree){
 
-		dirArborescence.files.forEach(file => {
-			const relativePath = relative(
-				join(
-					__dirname, 
-					relativeGeneratedFilePath
-				),
-				join(
-					mediaPath.toString(), 
-					file
+		let str = `${
+			dirArborescence.files.map(file => {
+				const relativePath = relative(
+					join(
+						__dirname,
+						relativeGeneratedFilePath
+					),
+					join(
+						mediaPath.toString(),
+						file
+					)
 				)
-			);
+				return `import _${index++} from "${relativePath}";\n`
+			})
+		}`
 
+		const directories = dirArborescence.directories;
 
-			appendFileSync(
-				join(
-					__dirname,
-					relativeGeneratedFilePath,
-					`${generatedFileName}.ts`
-				),
-				`import _${index} from "${relativePath}"; \n`
-			);
-
-			index++;
-
-		});
-
-
-		Object.keys(dirArborescence.directories).forEach((dir) => {
-			writeImportsRec(
-				join(mediaPath.toString(), dir),
-				dirArborescence.directories[dir]
-			);
+		Object.keys(directories).map(key => {
+			str = str + generateStringRec(
+				join(mediaPath.toString(), key),
+				directories[key]
+			)
 		})
+
+		return str.replace(/\,/g, "");
 
 	}
 
-	writeImportsRec(mediaPath, dirArborescence);
+	
+	appendFileSync(
+		join(
+			generatedFilePath.toString(), 
+			`${generatedFileName}.ts`
+		), 
+		generateStringRec(
+			mediaPath, 
+			dirArborescence
+		)
+	)
 
 }
