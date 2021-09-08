@@ -22,7 +22,7 @@ export function writeExport(params: {
 				${dirArborescence.files.map(file =>
 			`{
 							"url": _${index++},
-							"name": "${file.split(".")[0]}"
+							"name": "${file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "")}"
 						}`
 
 		)
@@ -30,7 +30,7 @@ export function writeExport(params: {
 
 		if (Object.keys(dirArborescence.directories).length === 0) {
 			return files;
-		}
+		};
 
 		return `
 			${files}
