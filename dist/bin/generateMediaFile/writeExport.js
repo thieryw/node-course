@@ -5,19 +5,29 @@ var fs_1 = require("fs");
 var path_1 = require("path");
 var generatedFileName_1 = require("./generatedFileName");
 function writeExport(params) {
-    var generatedFilePath = params.generatedFilePath, dirArborescence = params.dirArborescence;
+    var generatedFilePath = params.generatedFilePath, dirArborescence = params.dirArborescence, acceptedFileExtensions = params.acceptedFileExtensions;
     var path = (0, path_1.join)(generatedFilePath.toString(), generatedFileName_1.generatedFileName + ".ts");
     var index = 0;
     (0, fs_1.appendFileSync)(path, "\n\nexport const files = {\n");
     function generateStringRec(dirArborescence) {
-        var files = "\"files\": [\n\t\t\t\t" + dirArborescence.files.map(function (file) {
-            return "{\n\t\t\t\t\t\t\t\"url\": _" + index++ + ",\n\t\t\t\t\t\t\t\"name\": \"" + file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "") + "\"\n\t\t\t\t\t\t}";
-        }) + "]";
+        var str = "\"files\": [\n";
+        dirArborescence.files.forEach(function (file) {
+            if (!acceptedFileExtensions.includes((0, path_1.extname)(file))) {
+                return;
+            }
+            str = str + "{\n\t\t\t\t\"url\": _" + index++ + ",\n\t\t\t\t\"name\": \"" + file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "") + "\"\n\t\t\t},\n";
+        });
+        str = str + "\n],\n";
         if (Object.keys(dirArborescence.directories).length === 0) {
-            return files;
+            return str;
         }
-        ;
-        return "\n\t\t\t" + files + "\n\t\t\t,\n\t\t\t\"directories\": {\n\t\t\t\t" + Object.keys(dirArborescence.directories).map(function (key) { return "\n\t\t\t\t\t\"" + key + "\": {" + generateStringRec(dirArborescence.directories[key]) + "}\n\t\t\t\t"; }) + "\n\t\t\t}\n\t\t";
+        var directories = dirArborescence.directories;
+        str = str + "\n \"directories\": {\n";
+        Object.keys(directories).forEach(function (key) {
+            str = str + "\n\n\t\t\t\t\"" + key + "\": {\n\t\t\t\t" + generateStringRec(directories[key]) + "\n\t\t\t\t},\n\n\t\t\t";
+        });
+        str = str + "},";
+        return str;
     }
     ;
     (0, fs_1.appendFileSync)(path, generateStringRec(dirArborescence) + "}");

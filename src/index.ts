@@ -7,7 +7,12 @@ const generatedFilePath = join(__dirname, "../src/mediaImports");
 
 
 generateMediaFile({
-	mediaPath, generatedFilePath
+	mediaPath, 
+	generatedFilePath, 
+	"acceptedFileExtensions": [
+		".jpg",
+		".png"
+	]
 });
 
 

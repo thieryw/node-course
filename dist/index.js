@@ -6,5 +6,9 @@ var mediaPath = (0, path_1.join)(__dirname, "../media");
 var generatedFilePath = (0, path_1.join)(__dirname, "../src/mediaImports");
 (0, generateMediaFile_1.generateMediaFile)({
     mediaPath: mediaPath,
-    generatedFilePath: generatedFilePath
+    generatedFilePath: generatedFilePath,
+    "acceptedFileExtensions": [
+        ".jpg",
+        ".png"
+    ]
 });
