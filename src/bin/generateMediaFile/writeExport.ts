@@ -1,15 +1,16 @@
 import type { Tree } from "./crawl";
 import { appendFileSync } from "fs";
 import type { PathLike } from "fs";
-import { join } from "path";
+import { join, extname } from "path";
 import { generatedFileName } from "./generatedFileName";
 
 export function writeExport(params: {
-	dirArborescence: Tree,
-	generatedFilePath: PathLike,
+	dirArborescence: Tree;
+	generatedFilePath: PathLike;
+	acceptedFileExtensions: string[];
 }) {
 
-	const { generatedFilePath, dirArborescence } = params;
+	const { generatedFilePath, dirArborescence, acceptedFileExtensions } = params;
 	const path = join(generatedFilePath.toString(), `${generatedFileName}.ts`);
 	let index = 0;
 
@@ -18,31 +19,42 @@ export function writeExport(params: {
 	function generateStringRec(dirArborescence: Tree): string {
 
 
-		const files = `"files": [
-				${dirArborescence.files.map(file =>
-			`{
-							"url": _${index++},
-							"name": "${file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "")}"
-						}`
+		let str = `"files": [\n`;
 
-		)
-			}]`;
+		dirArborescence.files.forEach(file => {
+			if (!acceptedFileExtensions.includes(extname(file))) {
+				return;
+			}
+			str = `${str}{
+				"url": _${index++},
+				"name": "${file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "")}"
+			},\n`
+		})
+
+		str = `${str}\n],\n`;
 
 		if (Object.keys(dirArborescence.directories).length === 0) {
-			return files;
-		};
+			return str;
+		}
 
-		return `
-			${files}
-			,
-			"directories": {
-				${Object.keys(dirArborescence.directories).map(key => `
-					"${key}": {${generateStringRec(dirArborescence.directories[key])
-			}}
-				`
-		)}
-			}
-		`;
+		const directories = dirArborescence.directories;
+
+
+		str = `${str}\n "directories": {\n`;
+
+
+		Object.keys(directories).forEach(key => {
+			str = `${str}\n
+				"${key}": {
+				${generateStringRec(directories[key])}
+				},\n
+			`
+		})
+
+		str = str + "},"
+
+
+		return str
 
 	};
 
