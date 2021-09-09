@@ -1,7 +1,7 @@
 import {writeImports} from "./writeImports";
 import {writeExport} from "./writeExport";
 import type {PathLike} from "fs";
-import {rmSync, mkdirSync, readdirSync} from "fs";
+import {existsSync, writeFileSync} from "fs";
 import {join} from "path";
 import {generatedFileName} from "./generatedFileName";
 import {crawl} from "./crawl";
@@ -10,30 +10,29 @@ import {crawl} from "./crawl";
 export function generateMediaFile(params: {
 	generatedFilePath: PathLike;
 	mediaPath: PathLike;
+	acceptedFileExtensions: string[];
 }){
-	const {generatedFilePath, mediaPath} = params;
+	const {generatedFilePath, mediaPath, acceptedFileExtensions} = params;
 	const dirArborescence = crawl({mediaPath});
+	const generatedFileCompletePath = join(generatedFilePath.toString(), `${generatedFileName}.ts`);
 
-	if(readdirSync(generatedFilePath).length > 0){
-		rmSync(
-			join(
-				generatedFilePath.toString(), 
-				`${generatedFileName}.ts`
-			)
-		);
-	};
 
+	if(existsSync(generatedFileCompletePath)){
+		writeFileSync(generatedFileCompletePath, "");
+	}
 
 
 	writeImports({
 		mediaPath, 
 		generatedFilePath, 
-		dirArborescence
+		dirArborescence,
+		acceptedFileExtensions
 	});
 
 	writeExport({
 		dirArborescence, 
-		generatedFilePath
+		generatedFilePath,
+		acceptedFileExtensions
 	});
 
 };
