@@ -3,8 +3,7 @@ import type { PathLike } from "fs";
 import { relative, join, extname } from "path";
 import { appendFileSync } from "fs";
 import { generatedFileName } from "./generatedFileName";
-
-
+import {type} from "os";
 
 export function writeImports(params: {
 	mediaPath: PathLike,
@@ -48,7 +47,7 @@ export function writeImports(params: {
 					return "";
 				}
 
-				return `import _${index++} from "./${relativePath}";\n`
+				return `import _${index++} from "${type() === "Windows_NT" ? ".\\" : "./"}${relativePath}";\n`
 			})
 		}`
 

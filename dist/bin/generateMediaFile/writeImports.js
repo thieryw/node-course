@@ -4,6 +4,7 @@ exports.writeImports = void 0;
 var path_1 = require("path");
 var fs_1 = require("fs");
 var generatedFileName_1 = require("./generatedFileName");
+var os_1 = require("os");
 function writeImports(params) {
     var mediaPath = params.mediaPath, dirArborescence = params.dirArborescence, generatedFilePath = params.generatedFilePath, acceptedFileExtensions = params.acceptedFileExtensions;
     var relativeGeneratedFilePath = (0, path_1.relative)(__dirname, generatedFilePath.toString());
@@ -14,7 +15,7 @@ function writeImports(params) {
             if (!acceptedFileExtensions.includes((0, path_1.extname)(file))) {
                 return "";
             }
-            return "import _" + index++ + " from \"./" + relativePath + "\";\n";
+            return "import _" + index++ + " from \"" + ((0, os_1.type)() === "Windows_NT" ? ".\\" : "./") + relativePath + "\";\n";
         });
         var directories = dirArborescence.directories;
         Object.keys(directories).forEach(function (key) {

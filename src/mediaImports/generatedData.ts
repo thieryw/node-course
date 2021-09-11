@@ -19,129 +19,129 @@ import _17 from "./../../media/somePictures/b.jpg";
 import _18 from "./../../media/somePictures/c.jpg";
 import _19 from "./../../media/somePictures/d.jpg";
 
+
 export const files = {
-	"files": [
-		{
-			"url": _0,
-			"name": "bird"
-		},
-		{
-			"url": _1,
-			"name": "flower"
-		},
-		{
-			"url": _2,
-			"name": "dear"
-		},
-		{
-			"url": _3,
-			"name": "eagle"
-		},
+"files": [
+{
+				"url": _0,
+				"name": "bird"
+			},
+{
+				"url": _1,
+				"name": "flower"
+			},
+{
+				"url": _2,
+				"name": "dear"
+			},
+{
+				"url": _3,
+				"name": "eagle"
+			},
 
-	],
+],
 
-	"directories": {
+ "directories": {
 
 
-		"evenMorePictures": {
-			"files": [
-				{
-					"url": _4,
-					"name": "a"
-				},
-				{
-					"url": _5,
-					"name": "b"
-				},
-				{
-					"url": _6,
-					"name": "c"
-				},
-				{
-					"url": _7,
-					"name": "d"
-				},
+				"evenMorePictures": {
+				"files": [
+{
+				"url": _4,
+				"name": "a"
+			},
+{
+				"url": _5,
+				"name": "b"
+			},
+{
+				"url": _6,
+				"name": "c"
+			},
+{
+				"url": _7,
+				"name": "d"
+			},
 
-			],
+],
 
-			"directories": {
+ "directories": {
 
 
 				"zizi": {
-					"files": [
-						{
-							"url": _8,
-							"name": "a"
-						},
-						{
-							"url": _9,
-							"name": "b"
-						},
-						{
-							"url": _10,
-							"name": "c"
-						},
-						{
-							"url": _11,
-							"name": "d"
-						},
+				"files": [
+{
+				"url": _8,
+				"name": "a"
+			},
+{
+				"url": _9,
+				"name": "b"
+			},
+{
+				"url": _10,
+				"name": "c"
+			},
+{
+				"url": _11,
+				"name": "d"
+			},
 
-					],
+],
 
 				},
 
 			},
-		},
-
-
-
-		"otherPictures": {
-			"files": [
-				{
-					"url": _12,
-					"name": "b"
-				},
-				{
-					"url": _13,
-					"name": "c"
-				},
-				{
-					"url": _14,
-					"name": "d"
-				},
-				{
-					"url": _15,
-					"name": "pipi caca"
 				},
 
-			],
+			
 
-		},
+				"otherPictures": {
+				"files": [
+{
+				"url": _12,
+				"name": "b"
+			},
+{
+				"url": _13,
+				"name": "c"
+			},
+{
+				"url": _14,
+				"name": "d"
+			},
+{
+				"url": _15,
+				"name": "pipi caca"
+			},
 
+],
 
-
-		"somePictures": {
-			"files": [
-				{
-					"url": _16,
-					"name": "a"
 				},
-				{
-					"url": _17,
-					"name": "b"
-				},
-				{
-					"url": _18,
-					"name": "c"
-				},
-				{
-					"url": _19,
-					"name": "d"
+
+			
+
+				"somePictures": {
+				"files": [
+{
+				"url": _16,
+				"name": "a"
+			},
+{
+				"url": _17,
+				"name": "b"
+			},
+{
+				"url": _18,
+				"name": "c"
+			},
+{
+				"url": _19,
+				"name": "d"
+			},
+
+],
+
 				},
 
-			],
-
-		},
-
-	},
-}
+			},}

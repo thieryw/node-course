@@ -1,9 +1,8 @@
 import {join} from "path";
 import {generateMediaFile} from "./bin/generateMediaFile";
 
-
-const mediaPath = join(__dirname, "../media");
-const generatedFilePath = join(__dirname, "../src/mediaImports");
+const mediaPath = join(__dirname, "..", "media");
+const generatedFilePath = join(__dirname, "..", "src", "mediaImports");
 
 
 generateMediaFile({
