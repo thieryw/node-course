@@ -1,18 +1,29 @@
-import {join} from "path";
-import {generateMediaFile} from "./bin/generateMediaFile";
+import {createServer} from "http";
+import {getProducts} from "./controllers/productController";
 
-const mediaPath = join(__dirname, "..", "media");
-const generatedFilePath = join(__dirname, "..", "src", "mediaImports");
+const server = createServer((req, res)=>{
+
+	if(req.url === "/products" && req.method === "GET"){
+		getProducts({res});
+		return;
+	}
+	if(req.url?.match(/\/products\/\d+/) && req.method === "GET"){
+		const id = parseInt(req.url.split("/")[2]);
+		getProducts({res, id})
+		return;
+
+	}
+
+	res.writeHead(404, {"content-type": "text/html"});
+	res.end("<h1>404 page not found !!!</h1>")
 
 
-generateMediaFile({
-	mediaPath, 
-	generatedFilePath, 
-	"acceptedFileExtensions": [
-		".jpg",
-		".png"
-	]
-});
+})
+
+const PORT = process.env.PORT || 3000;
+
+server.listen(PORT, () => console.log("listening on port 3000"));
+
 
 
 

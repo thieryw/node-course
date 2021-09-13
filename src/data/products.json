@@ -1,0 +1,26 @@
+[
+	{
+		"id": 1,
+		"name": "interactive pennis enlarger",
+		"description": "A pump for a lager pennis",
+		"price": 5000
+	},
+	{
+		"id": 2,
+		"name": "headphones",
+		"description": "lovely headphones with great sound",
+		"price": 99
+	},
+	{
+		"id": 3,
+		"name": "laptop",
+		"description": "A very powerful computer",
+		"price": 1200
+	},
+	{
+		"id": 4,
+		"name": "excalibur",
+		"description": "A sword fit for chopping heads off",
+		"price": 3400
+	}
+]
