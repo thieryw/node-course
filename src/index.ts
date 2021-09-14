@@ -1,5 +1,5 @@
 import {createServer} from "http";
-import {getProducts} from "./controllers/productController";
+import {getProducts, createProduct} from "./controllers/productController";
 
 const server = createServer((req, res)=>{
 
@@ -13,6 +13,21 @@ const server = createServer((req, res)=>{
 		return;
 
 	}
+
+	if(req.url === "/products" && req.method === "POST"){
+		createProduct({
+			res,
+			"data": {
+				"id": 5,
+				"name": "concrete dildo",
+				"description": "a dildo made out of concrete",
+				"price": 500
+			}
+		});
+		return;
+
+	}
+
 
 	res.writeHead(404, {"content-type": "text/html"});
 	res.end("<h1>404 page not found !!!</h1>")

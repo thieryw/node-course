@@ -1,5 +1,7 @@
-import {findAll, findById} from "../models/productModel";
+import {findAll, findById, newProduct} from "../models/productModel";
 import type {ServerResponse} from "http";
+import type {DataType} from "../data/dataType";
+import {respond} from "../utils/respond";
 
 export async function getProducts(params: {
 	res: ServerResponse;
@@ -7,18 +9,28 @@ export async function getProducts(params: {
 }){
 
 	const {res, id} = params;
+	const value = id === undefined ? await findAll() : await findById({id});
 
-	try {
-		const value = id === undefined ? await findAll() : await findById({id});
-
-		res.writeHead(200, { "content-type": "application/json" });
-		res.end(JSON.stringify(value));
-
-
-	} catch (err) {
-		console.log(err);
-	}
+	respond({
+		res,
+		"contentType": "application/json",
+		"statusCode": 200,
+		"value": JSON.stringify(value ?? "product(s) not found !!")
+	})
 
 };
 
+export async function createProduct(params: {
+	res: ServerResponse;
+	data: DataType;
+}){
+	const {res, data} = params;
+	const product = await newProduct({data});
 
+	respond({
+		res,
+		"contentType": "application/json",
+		"statusCode": 201,
+		"value": JSON.stringify(product)
+	})
+}

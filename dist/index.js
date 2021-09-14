@@ -13,6 +13,18 @@ var server = (0, http_1.createServer)(function (req, res) {
         (0, productController_1.getProducts)({ res: res, id: id });
         return;
     }
+    if (req.url === "/products" && req.method === "POST") {
+        (0, productController_1.createProduct)({
+            res: res,
+            "data": {
+                "id": 5,
+                "name": "concrete dildo",
+                "description": "a dildo made out of concrete",
+                "price": 500
+            }
+        });
+        return;
+    }
     res.writeHead(404, { "content-type": "text/html" });
     res.end("<h1>404 page not found !!!</h1>");
 });
