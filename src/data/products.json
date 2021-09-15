@@ -22,5 +22,17 @@
 		"name": "excalibur",
 		"description": "A sword fit for chopping heads off",
 		"price": 3400
+	},
+	{
+		"name": "caca",
+		"description": "fecal mater",
+		"price": 300,
+		"id": "f811c539-6de8-4766-97b3-448ed00fadf1"
+	},
+	{
+		"id": "e3a548ff-0144-4cea-a20b-b494e520a66a",
+		"name": "caca",
+		"description": "fecal mater",
+		"price": 300
 	}
 ]

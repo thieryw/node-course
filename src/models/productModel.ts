@@ -1,6 +1,6 @@
 import products from "../data/products.json";
 import type {DataType} from "../data/dataType";
-import {writeDataToFile} from "../utils/writeDataToFile";
+import {writeDataToFile} from "../utils";
 import {join} from "path";
 
 export function findAll(){
@@ -32,10 +32,11 @@ export function newProduct(params: {
 
 	productsObj.push(data);
 
+
 	writeDataToFile({
-		"file": join(__dirname, "../data/products.json"),
+		"file": join(__dirname, "../../src/data/products.json"),
 		"data": JSON.stringify(productsObj)
-	})
+	});
 
 	return new Promise<DataType>(resolve => {
 

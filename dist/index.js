@@ -14,15 +14,7 @@ var server = (0, http_1.createServer)(function (req, res) {
         return;
     }
     if (req.url === "/products" && req.method === "POST") {
-        (0, productController_1.createProduct)({
-            res: res,
-            "data": {
-                "id": 5,
-                "name": "concrete dildo",
-                "description": "a dildo made out of concrete",
-                "price": 500
-            }
-        });
+        (0, productController_1.createProduct)({ res: res, req: req });
         return;
     }
     res.writeHead(404, { "content-type": "text/html" });

@@ -15,15 +15,7 @@ const server = createServer((req, res)=>{
 	}
 
 	if(req.url === "/products" && req.method === "POST"){
-		createProduct({
-			res,
-			"data": {
-				"id": 5,
-				"name": "concrete dildo",
-				"description": "a dildo made out of concrete",
-				"price": 500
-			}
-		});
+		createProduct({res, req});
 		return;
 
 	}

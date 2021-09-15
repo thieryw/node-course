@@ -1,7 +1,9 @@
 import {findAll, findById, newProduct} from "../models/productModel";
-import type {ServerResponse} from "http";
-import type {DataType} from "../data/dataType";
-import {respond} from "../utils/respond";
+import type {ServerResponse, IncomingMessage} from "http";
+import {respond} from "../utils";
+import {getPostData} from "../utils";
+//@ts-ignore
+import {v4 as uuidV4} from "uuid";
 
 export async function getProducts(params: {
 	res: ServerResponse;
@@ -21,15 +23,24 @@ export async function getProducts(params: {
 };
 
 export async function createProduct(params: {
+	req: IncomingMessage;
 	res: ServerResponse;
-	data: DataType;
 }){
-	const {res, data} = params;
-	const product = await newProduct({data});
+
+	const {req, res} = params;
+
+	const body = await getPostData({req});
+
+	const product = await newProduct({
+		"data": {
+			"id": uuidV4(),
+			...JSON.parse(body)
+		}
+	})
 
 	respond({
 		res,
-		"contentType": "application/json",
+		"contentType": "application:json",
 		"statusCode": 201,
 		"value": JSON.stringify(product)
 	})
