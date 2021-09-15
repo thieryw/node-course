@@ -1,5 +1,5 @@
 import {createServer} from "http";
-import {getProducts, createProduct} from "./controllers/productController";
+import {getProducts, postProduct, putProductUpdate} from "./controllers/productController";
 
 const server = createServer((req, res)=>{
 
@@ -15,7 +15,17 @@ const server = createServer((req, res)=>{
 	}
 
 	if(req.url === "/products" && req.method === "POST"){
-		createProduct({res, req});
+		postProduct({res, req});
+		return;
+
+	}
+
+	if(req.url?.match(/\/products\/\d+/) && req.method === "PUT"){
+		putProductUpdate({
+			res,
+			req,
+			"id": parseInt(req.url.split("/")[2])
+		});
 		return;
 
 	}

@@ -3,22 +3,16 @@ import type {DataType} from "../data/dataType";
 import {writeDataToFile} from "../utils";
 import {join} from "path";
 
+
 export function findAll(){
 	return new Promise<typeof products>(resolve => resolve(products));
 };
 
-export function findById(params: {id: number}){
+export function findById(params: {id: number | string}){
 	const { id } = params;
-	return new Promise<DataType | undefined>(resolve => {
+	return new Promise<DataType[number] | undefined>(resolve => {
 
-		const product: DataType | undefined = (
-			JSON.parse(JSON.stringify(products)) as DataType[]
-		).find(
-			product => id === product.id
-		);
-
-		console.log(product);
-
+		const product = products.find(product => id === product.id);
 		resolve(product);
 	})
 };
@@ -44,3 +38,26 @@ export function newProduct(params: {
 	});
 }
 
+export function updateProduct(params: {
+	updatedData: DataType[number];
+	id: string | number;
+}){
+	const {id, updatedData} = params;
+
+	return new Promise<DataType[number] | undefined>(resolve => {
+		const index = products.findIndex(product => product.id === id);
+
+
+		products[index] = updatedData;
+
+		writeDataToFile({
+			"file": join(__dirname, "../../src/data/products.json"),
+			"data": JSON.stringify(products)
+		});
+
+		resolve(products[index])
+
+		
+	})
+
+}

@@ -1,8 +1,2 @@
-
-export type DataType = {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-}
-
+import products from "./products.json";
+export type DataType = typeof products;

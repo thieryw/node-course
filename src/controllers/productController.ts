@@ -1,9 +1,10 @@
-import {findAll, findById, newProduct} from "../models/productModel";
+import {findAll, findById, newProduct, updateProduct} from "../models/productModel";
 import type {ServerResponse, IncomingMessage} from "http";
 import {respond} from "../utils";
 import {getPostData} from "../utils";
 //@ts-ignore
 import {v4 as uuidV4} from "uuid";
+import type {DataType} from "../data/dataType";
 
 export async function getProducts(params: {
 	res: ServerResponse;
@@ -17,12 +18,12 @@ export async function getProducts(params: {
 		res,
 		"contentType": "application/json",
 		"statusCode": 200,
-		"value": JSON.stringify(value ?? "product(s) not found !!")
+		"value": value
 	})
 
 };
 
-export async function createProduct(params: {
+export async function postProduct(params: {
 	req: IncomingMessage;
 	res: ServerResponse;
 }){
@@ -42,6 +43,45 @@ export async function createProduct(params: {
 		res,
 		"contentType": "application:json",
 		"statusCode": 201,
-		"value": JSON.stringify(product)
+		"value": product
 	})
+}
+
+
+export async function putProductUpdate(params: {
+	req: IncomingMessage,
+	res: ServerResponse,
+	id: number | string
+}){
+
+	const {id, req, res} = params;
+	const product = await findById({id});
+
+	if(product === undefined){
+		return;
+	}
+
+	const body = await getPostData({req});
+
+	const {name, description, price} = JSON.parse(body);
+
+	const updatedData = {
+		id,
+		"name": name || product.name,
+		"description": description || product.description,
+		"price": price || product.price
+	}
+
+	const updatedProduct = await updateProduct({
+		id,
+		"updatedData": updatedData as DataType[number]
+	})
+
+	respond({
+		res,
+		"contentType": "application/json",
+		"statusCode": 200,
+		"value": updatedProduct
+	});
+
 }

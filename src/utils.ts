@@ -4,15 +4,20 @@ import {writeFileSync} from "fs";
 export function respond(params: {
 	res: ServerResponse;
 	contentType: string;
-	value: string;
+	value: unknown;
 	statusCode: number;
 }){
 
 	const {contentType, res, value, statusCode} = params;
 
 	try {
+		if(value === undefined){
+			res.writeHead(404, {"content-type": "text/html"});
+			res.end("<h1>404 not found !!!</h1>")
+			return;
+		}
 		res.writeHead(statusCode, {"content-type": contentType});
-		res.end(value);
+		res.end(JSON.stringify(value));
 		
 	} catch (err){
 		console.log(err);
@@ -26,10 +31,7 @@ export function writeDataToFile(params: {
 	file: string;
 }){
 	const {data, file} = params;
-	console.log("caca");
-
 	writeFileSync(file, data);
-
 
 };
 
@@ -55,24 +57,4 @@ export function getPostData(params: {req: IncomingMessage}){
 		}
 
 	})
-
-	/*try{
-		let body = "";
-
-		req.on("data", chunk => {
-			body += chunk.toString();
-		})
-
-		req.on("end", ()=> {
-
-
-		})
-
-
-	}catch (err){
-
-		console.log("ok");
-
-	}*/
-
 }

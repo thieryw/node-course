@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("http");
 var productController_1 = require("./controllers/productController");
 var server = (0, http_1.createServer)(function (req, res) {
-    var _a;
+    var _a, _b;
     if (req.url === "/products" && req.method === "GET") {
         (0, productController_1.getProducts)({ res: res });
         return;
@@ -14,7 +14,15 @@ var server = (0, http_1.createServer)(function (req, res) {
         return;
     }
     if (req.url === "/products" && req.method === "POST") {
-        (0, productController_1.createProduct)({ res: res, req: req });
+        (0, productController_1.postProduct)({ res: res, req: req });
+        return;
+    }
+    if (((_b = req.url) === null || _b === void 0 ? void 0 : _b.match(/\/products\/\d+/)) && req.method === "PUT") {
+        (0, productController_1.putProductUpdate)({
+            res: res,
+            req: req,
+            "id": parseInt(req.url.split("/")[2])
+        });
         return;
     }
     res.writeHead(404, { "content-type": "text/html" });
