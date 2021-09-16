@@ -60,4 +60,27 @@ export function updateProduct(params: {
 		
 	})
 
+};
+
+export function deleteById(params: {
+	id: string | number;
+}){
+
+	const {id} = params;
+
+	return new Promise<DataType[number] | undefined>(resolve => {
+		const index = products.findIndex(product => product.id === id);
+		const deletedProduct = index === -1 ? undefined : {
+			...products[index]
+		};
+		const updatedProducts = products.filter(product => product.id !== id);
+		console.log(updatedProducts)
+		writeDataToFile({
+			"file": join(__dirname, "../../src/data/products.json"),
+			"data": JSON.stringify(updatedProducts)
+		});
+
+		resolve(deletedProduct);
+	})
+
 }

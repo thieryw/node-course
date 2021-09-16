@@ -1,4 +1,4 @@
-import {findAll, findById, newProduct, updateProduct} from "../models/productModel";
+import {findAll, findById, newProduct, updateProduct, deleteById} from "../models/productModel";
 import type {ServerResponse, IncomingMessage} from "http";
 import {respond} from "../utils";
 import {getPostData} from "../utils";
@@ -75,7 +75,7 @@ export async function putProductUpdate(params: {
 	const updatedProduct = await updateProduct({
 		id,
 		"updatedData": updatedData as DataType[number]
-	})
+	});
 
 	respond({
 		res,
@@ -84,4 +84,26 @@ export async function putProductUpdate(params: {
 		"value": updatedProduct
 	});
 
+};
+
+export async function deleteProduct(params: {
+	id: string | number;
+	res: ServerResponse;
+}){
+	const {id, res} = params;
+
+	const deletedProduct = await deleteById({id});
+
+	const value = deletedProduct === undefined ? undefined : {
+		"message": "this product has been deleted",
+		...deletedProduct
+	}
+
+	respond({
+		res,
+		"contentType": "application/json",
+		"statusCode": 200,
+		value
+	})
 }
+

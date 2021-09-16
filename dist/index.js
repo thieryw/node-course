@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("http");
 var productController_1 = require("./controllers/productController");
 var server = (0, http_1.createServer)(function (req, res) {
-    var _a, _b;
+    var _a, _b, _c;
     if (req.url === "/products" && req.method === "GET") {
         (0, productController_1.getProducts)({ res: res });
         return;
@@ -21,6 +21,13 @@ var server = (0, http_1.createServer)(function (req, res) {
         (0, productController_1.putProductUpdate)({
             res: res,
             req: req,
+            "id": parseInt(req.url.split("/")[2])
+        });
+        return;
+    }
+    if (((_c = req.url) === null || _c === void 0 ? void 0 : _c.match(/\/products\/\d+/)) && req.method === "DELETE") {
+        (0, productController_1.deleteProduct)({
+            res: res,
             "id": parseInt(req.url.split("/")[2])
         });
         return;

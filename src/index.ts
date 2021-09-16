@@ -1,5 +1,5 @@
 import {createServer} from "http";
-import {getProducts, postProduct, putProductUpdate} from "./controllers/productController";
+import {getProducts, postProduct, putProductUpdate, deleteProduct} from "./controllers/productController";
 
 const server = createServer((req, res)=>{
 
@@ -28,6 +28,15 @@ const server = createServer((req, res)=>{
 		});
 		return;
 
+	}
+
+	if(req.url?.match(/\/products\/\d+/) && req.method === "DELETE"){
+		deleteProduct({
+			res,
+			"id": parseInt(req.url.split("/")[2])
+		});
+
+		return;
 	}
 
 
