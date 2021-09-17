@@ -24,19 +24,19 @@ export const files = {
 "files": [
 {
 				"url": _0,
-				"name": "bird"
+				"name": "1_bird"
 			},
 {
 				"url": _1,
-				"name": "flower"
+				"name": "2_flower"
 			},
 {
 				"url": _2,
-				"name": "dear"
+				"name": "3_dear"
 			},
 {
 				"url": _3,
-				"name": "eagle"
+				"name": "4_eagle"
 			},
 
 ],

@@ -5,12 +5,12 @@ import { join, extname } from "path";
 import { generatedFileName } from "./generatedFileName";
 
 export function writeExport(params: {
-	dirArborescence: Tree;
+	tree: Tree;
 	generatedFilePath: PathLike;
 	acceptedFileExtensions: string[];
 }) {
 
-	const { generatedFilePath, dirArborescence, acceptedFileExtensions } = params;
+	const { generatedFilePath, tree, acceptedFileExtensions } = params;
 	const path = join(generatedFilePath.toString(), `${generatedFileName}.ts`);
 	let index = 0;
 
@@ -27,7 +27,7 @@ export function writeExport(params: {
 			}
 			str = `${str}{
 				"url": _${index++},
-				"name": "${file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "")}"
+				"name": "${file.replace(/^\d+-/g, "").replace(/\.\w+$/g, "")}"
 			},\n`
 		})
 
@@ -60,7 +60,7 @@ export function writeExport(params: {
 
 	appendFileSync(
 		path,
-		`${generateStringRec(dirArborescence)}}`
+		`${generateStringRec(tree)}}`
 	);
 
 }

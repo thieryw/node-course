@@ -8,14 +8,14 @@ import {type} from "os";
 export function writeImports(params: {
 	mediaPath: PathLike,
 	generatedFilePath: PathLike,
-	dirArborescence: Tree,
+	tree: Tree,
 	acceptedFileExtensions: string[];
 
 }) {
 
 	const { 
 		mediaPath, 
-		dirArborescence, 
+		tree, 
 		generatedFilePath, 
 		acceptedFileExtensions 
 	} = params;
@@ -30,26 +30,24 @@ export function writeImports(params: {
 
 	function generateStringRec(mediaPath: PathLike, dirArborescence: Tree){
 
-		let str = `${
-			dirArborescence.files.map(file => {
-				const relativePath = relative(
-					join(
-						__dirname,
-						relativeGeneratedFilePath
-					),
-					join(
-						mediaPath.toString(),
-						file
-					)
+		let str = "";
+
+		dirArborescence.files.forEach(file => {
+			const relativePath = relative(
+				join(
+					__dirname,
+					relativeGeneratedFilePath
+				),
+				join(
+					mediaPath.toString(),
+					file
 				)
-
-				if(!acceptedFileExtensions.includes(extname(file))){
-					return "";
-				}
-
-				return `import _${index++} from "${type() === "Windows_NT" ? ".\\" : "./"}${relativePath}";\n`
-			})
-		}`
+			)
+			if (!acceptedFileExtensions.includes(extname(file))) {
+				return "";
+			}
+			str = `${str}import _${index++} from "${type() === "Windows_NT" ? ".\\" : "./"}${relativePath}";\n`
+		})
 
 		const directories = dirArborescence.directories;
 
@@ -60,19 +58,19 @@ export function writeImports(params: {
 			)
 		})
 
-		return str.replace(/,/g, "");
+		return str;
 
 	}
 
-	
+
 	appendFileSync(
 		join(
-			generatedFilePath.toString(), 
+			generatedFilePath.toString(),
 			`${generatedFileName}.ts`
-		), 
+		),
 		generateStringRec(
-			mediaPath, 
-			dirArborescence
+			mediaPath,
+			tree
 		)
 	)
 

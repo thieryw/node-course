@@ -5,7 +5,7 @@ var fs_1 = require("fs");
 var path_1 = require("path");
 var generatedFileName_1 = require("./generatedFileName");
 function writeExport(params) {
-    var generatedFilePath = params.generatedFilePath, dirArborescence = params.dirArborescence, acceptedFileExtensions = params.acceptedFileExtensions;
+    var generatedFilePath = params.generatedFilePath, tree = params.tree, acceptedFileExtensions = params.acceptedFileExtensions;
     var path = (0, path_1.join)(generatedFilePath.toString(), generatedFileName_1.generatedFileName + ".ts");
     var index = 0;
     (0, fs_1.appendFileSync)(path, "\n\nexport const files = {\n");
@@ -15,7 +15,7 @@ function writeExport(params) {
             if (!acceptedFileExtensions.includes((0, path_1.extname)(file))) {
                 return;
             }
-            str = str + "{\n\t\t\t\t\"url\": _" + index++ + ",\n\t\t\t\t\"name\": \"" + file.replace(/^\d+_/g, "").replace(/\.\w+$/g, "") + "\"\n\t\t\t},\n";
+            str = str + "{\n\t\t\t\t\"url\": _" + index++ + ",\n\t\t\t\t\"name\": \"" + file.replace(/^\d+-/g, "").replace(/\.\w+$/g, "") + "\"\n\t\t\t},\n";
         });
         str = str + "\n],\n";
         if (Object.keys(dirArborescence.directories).length === 0) {
@@ -30,6 +30,6 @@ function writeExport(params) {
         return str;
     }
     ;
-    (0, fs_1.appendFileSync)(path, generateStringRec(dirArborescence) + "}");
+    (0, fs_1.appendFileSync)(path, generateStringRec(tree) + "}");
 }
 exports.writeExport = writeExport;
