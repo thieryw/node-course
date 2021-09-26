@@ -1,4 +1,4 @@
-import type { Tree } from "./crawl";
+import type { Tree } from "./tools/crawl";
 import { appendFileSync } from "fs";
 import type { PathLike } from "fs";
 import { join, extname } from "path";

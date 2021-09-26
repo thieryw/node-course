@@ -1,38 +1,46 @@
-import type { Tree } from "./crawl";
+import type { Tree } from "./tools/crawl";
 import type { PathLike } from "fs";
 import { relative, join, extname } from "path";
-import { appendFileSync } from "fs";
+import * as fs from "fs";
 import { generatedFileName } from "./generatedFileName";
-import {type} from "os";
+import { type } from "os";
 
 export function writeImports(params: {
-	mediaPath: PathLike,
-	generatedFilePath: PathLike,
-	tree: Tree,
+	mediaDirPath: string;
+	generatedFilePath: string;
+	tree: Tree;
 	acceptedFileExtensions: string[];
-
 }) {
 
-	const { 
-		mediaPath, 
-		tree, 
-		generatedFilePath, 
-		acceptedFileExtensions 
+	const {
+		mediaDirPath,
+		tree,
+		generatedFilePath,
+		acceptedFileExtensions
 	} = params;
 
 	const relativeGeneratedFilePath = relative(
 		__dirname,
-		generatedFilePath.toString()
+		generatedFilePath
 	)
 
+	const { getCounter } = (() => {
 
-	let index = 0;
+		let counter = 0;
 
-	function generateStringRec(mediaPath: PathLike, dirArborescence: Tree){
+		function getCounter() {
+			return counter++;
+		}
+
+		return { getCounter };
+
+	})();
+
+	const generateStringRec = (mediaPath: PathLike, tree: Tree) => {
 
 		let str = "";
 
-		dirArborescence.files.forEach(file => {
+		tree.files.forEach(file => {
 			const relativePath = relative(
 				join(
 					__dirname,
@@ -46,10 +54,10 @@ export function writeImports(params: {
 			if (!acceptedFileExtensions.includes(extname(file))) {
 				return "";
 			}
-			str = `${str}import _${index++} from "${type() === "Windows_NT" ? ".\\" : "./"}${relativePath}";\n`
+			str = `${str}import _${getCounter()} from "${type() === "Windows_NT" ? ".\\" : "./"}${relativePath}";\n`
 		})
 
-		const directories = dirArborescence.directories;
+		const { directories } = tree;
 
 		Object.keys(directories).forEach(key => {
 			str = str + generateStringRec(
@@ -60,16 +68,13 @@ export function writeImports(params: {
 
 		return str;
 
-	}
+	};
 
 
-	appendFileSync(
-		join(
-			generatedFilePath.toString(),
-			`${generatedFileName}.ts`
-		),
+	fs.appendFileSync(
+		join(generatedFilePath, `${generatedFileName}.ts`),
 		generateStringRec(
-			mediaPath,
+			mediaDirPath,
 			tree
 		)
 	)

@@ -2,3 +2,4 @@
 /dist
 /mediaImports/generatedData
 .DS_Store
+/res/generatedData.ts
